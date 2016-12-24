@@ -1,5 +1,7 @@
 package com.example.restaurantfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -25,9 +27,6 @@ public class OpeningHourPeriod  implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
 
-    @ManyToOne
-    @JoinColumn(name="OpeningHourId")
-    private OpeningHour openingHour;
 
     @Column(name = "CreatedDate", columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,6 +35,16 @@ public class OpeningHourPeriod  implements Serializable {
     @Column( name = "UpdatedDate", columnDefinition="DATETIME" )
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "OpeningHourId")
+    @JsonBackReference
+    private OpeningHour openingHour;
+
+
+    public OpeningHourPeriod(){
+
+    }
 
     public long getId() {
         return id;

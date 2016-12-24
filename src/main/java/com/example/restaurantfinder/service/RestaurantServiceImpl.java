@@ -20,7 +20,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     RestaurantRepository restaurantRepository;
 
     @Override
-    public Restaurant findRestaurantById(long id) {
+    public Restaurant findRestaurantById(long id)  {
         return restaurantRepository.findOne(id);
     }
 
@@ -30,7 +30,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void saveRestaurant(Restaurant restaurant) {
+    public void saveRestaurant(Restaurant restaurant) throws Exception {
         restaurantRepository.save(restaurant);
     }
 

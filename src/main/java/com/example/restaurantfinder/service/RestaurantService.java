@@ -13,11 +13,10 @@ public interface RestaurantService {
 
     List<Restaurant> getAllRestaurant();
 
-    void saveRestaurant(Restaurant restaurant);
+    void saveRestaurant(Restaurant restaurant) throws Exception;
 
-    void updateRestaurant(Restaurant restaurant);
+    void updateRestaurant(Restaurant restaurant) throws Exception;
 
-    void deleteRestaurant(long id);
-
+    void deleteRestaurant(long id) throws Exception;
 
 }

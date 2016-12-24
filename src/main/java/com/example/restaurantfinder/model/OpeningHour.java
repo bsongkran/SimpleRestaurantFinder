@@ -1,5 +1,8 @@
 package com.example.restaurantfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -25,14 +28,6 @@ public class OpeningHour  implements Serializable {
     @Column(name = "IsOpen")
     private boolean isOpen;
 
-    @ManyToOne
-    @JoinColumn(name="RestaurantId")
-    private Restaurant restaurant;
-
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="OpeningHourPeriodId")
-    private Set<OpeningHourPeriod> openingHourPeriods;
-
 
     @Column(name = "CreatedDate", columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,6 +36,18 @@ public class OpeningHour  implements Serializable {
     @Column( name = "UpdatedDate", columnDefinition="DATETIME" )
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "RestaurantId")
+    @JsonBackReference
+    private Restaurant restaurant;
+
+
+    @OneToMany(mappedBy = "openingHour", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(nullable = true)
+    @JsonManagedReference
+    private Set<OpeningHourPeriod> openingHourPeriods ;
+
 
     public long getId() {
         return id;
@@ -66,22 +73,6 @@ public class OpeningHour  implements Serializable {
         isOpen = open;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public Set<OpeningHourPeriod> getOpeningHourPeriods() {
-        return openingHourPeriods;
-    }
-
-    public void setOpeningHourPeriods(Set<OpeningHourPeriod> openingHourPeriods) {
-        this.openingHourPeriods = openingHourPeriods;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -96,5 +87,21 @@ public class OpeningHour  implements Serializable {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Set<OpeningHourPeriod> getOpeningHourPeriods() {
+        return openingHourPeriods;
+    }
+
+    public void setOpeningHourPeriods(Set<OpeningHourPeriod> openingHourPeriods) {
+        this.openingHourPeriods = openingHourPeriods;
     }
 }

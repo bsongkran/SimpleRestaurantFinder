@@ -1,6 +1,8 @@
 package com.example.restaurantfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vividsolutions.jts.geom.Geometry;
+import org.hibernate.annotations.IndexColumn;
 import org.joda.time.DateTime;
 import org.springframework.data.geo.Point;
 
@@ -36,13 +38,21 @@ public class Restaurant  implements Serializable {
     @Column(name = "Longitude")
     private double longitude;
 
-    @Column(name = "Geometry")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(nullable = true)
+    @JsonManagedReference
+    private Set<OpeningHour> openingHours;
+
+    public Set<OpeningHour> getOpeningHours() {
+        return openingHours;
+    }
+
+    public void setOpeningHours(Set<OpeningHour> openingHours) {
+        this.openingHours = openingHours;
+    }
+
+    @Column(name = "Geometry" )
     private Geometry geometry;
-
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="OpeningHourId")
-    private Set<OpeningHour> openingHours ;
-
 
     @Column(name = "CreatedDate", columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -101,13 +111,6 @@ public class Restaurant  implements Serializable {
         this.geometry = geometry;
     }
 
-    public Set<OpeningHour> getOpeningHours() {
-        return openingHours;
-    }
-
-    public void setOpeningHours(Set<OpeningHour> openingHours) {
-        this.openingHours = openingHours;
-    }
 
     public Date getCreatedDate() {
         return createdDate;

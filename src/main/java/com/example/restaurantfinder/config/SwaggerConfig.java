@@ -25,9 +25,21 @@ public class SwaggerConfig  {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.regex("/Api/.*"))
                 .build()
-                .pathMapping("/");
+                .apiInfo(apiInfo());
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Simple Restaurant Finder System APIs                                                                                 ")
+                .description(" Restful web service to manage restaurant entries for my simple restaurant finder system.")
+                .termsOfServiceUrl("http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open")
+                .contact("Songkran Sommit")
+                .license("Apache License Version 2.0")
+                .licenseUrl("https://github.com/bsongkran/SimpleRestaurantFinder")
+                .version("2.0")
+                .build();
     }
 
 
